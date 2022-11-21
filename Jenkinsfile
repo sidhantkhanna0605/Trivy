@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-              echo 'bulilding an imgae'
+              sh 'docker build -t trivy .'
             }
         }
     }
