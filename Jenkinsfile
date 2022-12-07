@@ -9,7 +9,7 @@ pipeline {
         stage('Trivy Scan') {
             steps  {
               script {
-                    sh """trivy image --format template --template "@/home/core/contrib/html.tpl" -o report.html ubuntu"""
+                    sh """trivy image --exit-code 1 --severity=CRITICAL --format template --template "@/home/core/contrib/html.tpl" -o report.html ubuntu"""
                     
                 }  
             }
