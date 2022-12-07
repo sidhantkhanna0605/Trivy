@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps  {
-              sh 'docker build -t trivy .'
+              sh 'docker build -t infinte .'
             }
         }
         stage('Trivy') {
