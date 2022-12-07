@@ -9,7 +9,7 @@ pipeline {
         stage('Trivy Scan') {
             steps  {
               script {
-                    sh """trivy image --exit-code 1 --severity MEDIUM ubuntu"""
+                    sh """trivy image --format template --template "@/home/core/contrib/html.tpl" -o report.html ubuntu"""
                     
                 }  
             }
@@ -17,14 +17,14 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: "trivy_report.html", fingerprint: true
+            archiveArtifacts artifacts: "report.html", fingerprint: true
                 
             publishHTML (target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: false,
                 keepAll: true,
                 reportDir: '.',
-                reportFiles: 'trivy_report.html',
+                reportFiles: 'report.html',
                 reportName: 'Trivy Scan',
                 ])
             }
