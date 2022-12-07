@@ -6,10 +6,12 @@ pipeline {
               sh 'docker build -t infinte .'
             }
         }
-        stage('Trivy') {
+        stage('Trivy Scan') {
             steps  {
-              sh 'wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb'
-              sh 'sudo dpkg -iS trivy_0.18.3_Linux-64bit.deb'  
+              script {
+                    sh """trivy image --format template --template \"@/home/vijeta1/contrib/html.tpl\" --output trivy_report.html XXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/${params.SERVICE}:${BUILD_NUMBER} """
+                    
+                }  
             }
         }
     }
