@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('Build') {
             steps  {
-              sh 'docker build -t infinte .'
+              sh 'docker build -t ubuntu .'
             }
         }
         stage('Trivy Scan') {
             steps  {
               script {
-                    sh """trivy image infinte"""
+                    sh """trivy image ubuntu"""
                     
                 }  
             }
