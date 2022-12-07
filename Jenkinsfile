@@ -9,7 +9,7 @@ pipeline {
         stage('Trivy Scan') {
             steps  {
               script {
-                    sh """trivy image ubuntu"""
+                    sh """trivy image --exit-code 1 --severity MEDIUM ubuntu"""
                     
                 }  
             }
