@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps  {
-              sh 'docker build -t fifa .'
+              sh 'docker build -t fifa2 .'
             }
         }
         stage('Trivy Scan') {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Docker Tag'){
           steps  {
-            sh 'docker tag fifa sidhant0605/fifa '
+            sh 'docker tag fifa sidhant0605/fifa2 '
           }
         }
         stage('Login') {
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Docker Push'){
           steps  {
-            sh 'docker push sidhant0605/fifa '
+            sh 'docker push sidhant0605/fifa2 '
           }
         }
     }
