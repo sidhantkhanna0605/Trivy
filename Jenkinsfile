@@ -1,3 +1,4 @@
+def image = "cricket"
 pipeline {
     agent any
     environment {
@@ -6,20 +7,20 @@ pipeline {
     stages {
         stage('Build') {
             steps  {
-              sh 'docker build -t fifa2 .'
+                sh 'docker build -t ${image} .'
             }
         }
         stage('Trivy Scan') {
             steps  {
               script {
-                    sh """trivy image --exit-code 1 --severity=CRITICAL --format template --template "@/home/core/contrib/html.tpl" -o report.html ubuntu"""
+                    sh """trivy image --exit-code 1 --severity=CRITICAL --format template --template "@/home/core/contrib/html.tpl" -o report.html ${image}"""
                     
                 }  
             }
         }
         stage('Docker Tag'){
           steps  {
-            sh 'docker tag fifa sidhant0605/fifa2 '
+              sh 'docker tag fifa sidhant0605/${image} '
           }
         }
         stage('Login') {
@@ -29,7 +30,7 @@ pipeline {
         }
         stage('Docker Push'){
           steps  {
-            sh 'docker push sidhant0605/fifa2 '
+              sh 'docker push sidhant0605/${image} '
           }
         }
     }
