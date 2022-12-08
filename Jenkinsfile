@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps  {
-              sh 'docker build -t ubuntu .'
+              sh 'docker build -t fifa .'
             }
         }
         stage('Trivy Scan') {
