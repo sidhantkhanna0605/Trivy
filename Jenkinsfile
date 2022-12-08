@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
       dockerhub=credentials('dockerhub')
-      image="cricket"
+      image="rishabh"
     }
     stages {
         stage('Build') {
@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Docker Tag'){
           steps  {
-              sh 'docker tag fifa sidhant0605/${image} '
+              sh 'docker tag ${image} sidhant0605/${image} '
           }
         }
         stage('Login') {
