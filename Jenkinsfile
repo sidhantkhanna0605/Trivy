@@ -1,8 +1,8 @@
-def image = "cricket"
 pipeline {
     agent any
     environment {
       dockerhub=credentials('dockerhub')
+      image="cricket"
     }
     stages {
         stage('Build') {
