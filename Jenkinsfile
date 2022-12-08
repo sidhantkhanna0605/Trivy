@@ -14,6 +14,16 @@ pipeline {
                 }  
             }
         }
+        stage('Docker Tag'){
+          steps  {
+            sh 'docker tag fifa sidhant0605/fifa '
+          }
+        }
+        stage('Docker Push'){
+          steps  {
+            sh 'docker push sidhant0605/fifa '
+          }
+        }
     }
     post {
         always {
@@ -30,3 +40,4 @@ pipeline {
             }
         }
 }
+
