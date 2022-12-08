@@ -13,7 +13,7 @@ pipeline {
         stage('Trivy Scan') {
             steps  {
               script {
-                    sh """trivy image --exit-code 1 --severity=CRITICAL --format template --template "@/home/core/contrib/html.tpl" -o report.html ${image}"""
+                    sh 'trivy image --exit-code 1 --severity=CRITICAL --format template --template "@/home/core/contrib/html.tpl" -o report.html ${image}'
                     
                 }  
             }
