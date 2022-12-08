@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
       dockerhub=credentials('dockerhub')
-      image="rishabh"
+      image="ssss"
     }
     stages {
         stage('Build') {
