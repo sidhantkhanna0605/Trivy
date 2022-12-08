@@ -19,6 +19,11 @@ pipeline {
             sh 'docker tag fifa sidhant0605/fifa '
           }
         }
+        stage('Login') {
+          steps{
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          }
+        }
         stage('Docker Push'){
           steps  {
             sh 'docker push sidhant0605/fifa '
@@ -40,4 +45,3 @@ pipeline {
             }
         }
 }
-
