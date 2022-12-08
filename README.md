@@ -1,1 +1,1 @@
-Creating jenkins pipelin for automation
+Creating jenkins pipelin for automation.
