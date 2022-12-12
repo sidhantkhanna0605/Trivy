@@ -1,5 +1,49 @@
-Will create a job.yaml for TRIVY
-
-
-
-tttttt
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: zadara-job2
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      volumes:
+      - name: fio-volume
+        hostPath:
+          path: /root/results
+          type: DirectoryOrCreate
+      - configMap:
+          name: storage-performance
+        name: clusters-config-volume
+      containers:
+      - image: rakuten-reg.coredge.io/kgzadaraperformance
+        name: zadara-job
+        env:
+        - name: disk_size
+          value: 1Gi 
+        - name: max_loop_start
+          value: "1"
+        - name: max_loop_end
+          value: "8"
+        - name: storage_class
+          value: local-path
+        - name: input
+          value: "16,4KB,8
+16,64KB,8
+16,512KB,8
+16,1MB,8
+16,4KB,1
+16,64KB,1
+16,512KB,1
+16,1MB,1"
+        volumeMounts:
+        - name: fio-volume
+          mountPath: /results
+        - mountPath: /kubeconfig
+          name: clusters-config-volume
+        resources: {}
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      restartPolicy: Never
+status: {}
