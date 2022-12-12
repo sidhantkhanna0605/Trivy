@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kg-test-cm
+data:
+  entrypoint.sh: |-
+    #!/bin/sh
+    sleep 5
+    fio --output=/out.json --output-format=json --time_based --group_reporting --runtime 20 --ioengine libaio --iodepth io_depth --direct 1 --bs bs_kb --rwmixread 70 --rw randrw --size 1G --numjobs num_jobs --directory /tmp --name job &&  while true; do sleep 230; done;
+    cat /out.json
+    exit 0
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zadara-pvc-tc
+spec:
+  storageClassName: storage_class
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: disk_size
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zadara-pod-tc
+spec:
+  dnsPolicy: ClusterFirstWithHostNet
+  hostNetwork: true
+  restartPolicy: Never
+  volumes:
+    - name: zadara-pv-storage
+      persistentVolumeClaim:
+        claimName: zadara-pvc-tc
+    - name: script-vol
+      configMap:
+        name: kg-test-cm
+        defaultMode: 0700
+  containers:
+    - name: tc-container
+      image: xridge/fio
+      command: ["sh", "/bin/entrypoint.sh"]
+      volumeMounts:
+        - mountPath: /tmp
+          name: zadara-pv-storage
+        - name: script-vol
+          mountPath: /bin/entrypoint.sh
+          subPath: entrypoint.sh
